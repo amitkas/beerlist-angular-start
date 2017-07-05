@@ -31,43 +31,42 @@ app.get('/beers', function (req, res, next) {
   });
 });
 
-app.post('/beers', function (req, res, next) {
-  var newBeer = new Beer(req.body)
-  newBeer.save(function (err, data) {
+app.post('/beers', function (req, res) {
+  Beer.create(req.body, function (err, data) {
     if (err) {
-      return next(error);
-    } else {
-      return res.send(data)
+      return next(err);
     }
+    res.send(data);
   });
 });
 
-app.delete('/beers/:id', function(req, res, next) {
-  var id = req.params.id
-  Beer.findByIdAndRemove(id, function(err, beer) {
+app.delete('/beers/:beerId', function (req, res) {
+  Beer.findByIdAndRemove(req.params.beerId, function (err, data) {
+    if (err) {
+      return next(err);
+    }
+    res.send(data);
+  });
+});
+
+app.post('/beers/:id/ratings', function (req, res, next) {
+  var updateObject = {
+    $push: {
+      ratings: req.body.rating
+    }
+  };
+
+  Beer.findByIdAndUpdate(req.param.id, updateObject, {
+    new: true
+  }, function (err, beer) {
     if (err) {
       return next(err);
     } else {
-      res.send('deleted');
+      res.send(beer);
     }
   });
 });
 
-
-app.post('/beers/:id/ratings', function(req, res, next) {
-    //code a suitable update object 
-    //using req.body to retrieve the new rating
-    var updateObject = { $push: { ratings: req.body.rating } };
-    
-
-    Beer.findByIdAndUpdate(req.param.id, updateObject, { new: true }, function(err, beer) {
-        if (err) {
-            return next(err);
-        } else {
-            res.send(beer);
-        }
-    });
-});
 // error handler to catch 404 and forward to main error handler
 app.use(function (req, res, next) {
   var err = new Error('Not Found');
