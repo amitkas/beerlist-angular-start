@@ -26,6 +26,9 @@ app.get('/beers', function (req, res, next) {
     if (error) {
       return next(error);
     } else {
+
+
+
       return res.send(beers);
     }
   });
@@ -49,19 +52,20 @@ app.delete('/beers/:beerId', function (req, res) {
   });
 });
 
-app.post('/beers/:id/ratings', function (req, res, next) {
+app.post('/beers/:beerId/ratings', function (req, res, next) {
   var updateObject = {
     $push: {
-      ratings: req.body.rating
+      ratings: req.body.ratings
     }
   };
 
-  Beer.findByIdAndUpdate(req.param.id, updateObject, {
+  Beer.findByIdAndUpdate(req.params.beerId, updateObject, {
     new: true
   }, function (err, beer) {
     if (err) {
       return next(err);
     } else {
+      console.log(beer)
       res.send(beer);
     }
   });
