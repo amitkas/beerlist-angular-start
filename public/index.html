@@ -16,9 +16,13 @@
         </div>
     </div>
     <div ng-controller="mainController" class="container">
-        <button ng-click='sortBeers()' type='btn'>SORT</button>
+<ul class="nav nav-pills">
+    <li ng-class="{'active': order=='name'}"><a href="#" ng-click="setOrder('name')">Name</a></li>
+    <li  ng-class="{'active': order=='average'}"><a href="#" ng-click="setOrder('average')">Average Rating</a></li>
+        <li  ng-class="{'active': order=='abv'}"><a href="#" ng-click="setOrder('abv')">ABV</a></li>
+</ul>
         <div class="row">
-            <div class="col-md-4" ng-repeat="beer in beers | orderBy:dynamicOrder:order">
+            <div class="col-md-4" ng-repeat="beer in beers | orderBy:order">
                 <div class="thumbnail">
                     <img ng-src="{{beer.image_url}}" alt="">
                     <div class="caption">

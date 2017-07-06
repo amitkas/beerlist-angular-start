@@ -32,9 +32,6 @@
 
       beerFactory.getBeers().then(function (beers) {
               $scope.beers = beers;
-               $scope.order = {
-        field: 'average'
-        }
           })
           .catch(function (error) {
               console.log(error)
@@ -59,24 +56,9 @@
       }
 
 
-    //   var flag = false;
-    //   // Sort Beers By Rating
-    //   $scope.sortBeers = function () {
-    //       $scope.beers.sort(dynamicSort('average', flag));
-    //       debugger
-    //       flag = !flag;
-    //   }
 
-    //   var dynamicSort = function (prop, flag) {
-    //       return function (a, b) {
-    //           if (flag) {
-    //               return (a[prop] < b[prop]) ? -1 : (a[prop] > b[prop]) ? 1 : 0;
-    //           } else {
-    //               return (a[prop] > b[prop]) ? -1 : (a[prop] < b[prop]) ? 1 : 0;
-    //           }
-    //       };
-    //   }
-
- 
+      $scope.setOrder = function (order) {
+          $scope.order = order;
+      };
 
   })

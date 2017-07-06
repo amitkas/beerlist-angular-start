@@ -11,7 +11,7 @@ var beerSchema = new mongoose.Schema({
     average: Number
 });
 
-beerSchema.post('find', function (result) {
+beerSchema.post('', function (result) {
 
     for (var i = 0; i < result.length; i++) {
         if (result[i].ratings) {
