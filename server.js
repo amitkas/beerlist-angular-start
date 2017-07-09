@@ -26,9 +26,6 @@ app.get('/beers', function (req, res, next) {
     if (error) {
       return next(error);
     } else {
-
-
-
       return res.send(beers);
     }
   });
@@ -65,7 +62,23 @@ app.post('/beers/:beerId/ratings', function (req, res, next) {
     if (err) {
       return next(err);
     } else {
-      console.log(beer)
+      res.send(beer);
+    }
+  });
+});
+
+app.post('/beers/:id/reviews', function (req, res, next) {
+  var update = {
+    $push: {
+      reviews: req.body
+    }
+  };
+  Beer.findByIdAndUpdate(req.params.beerid, update, {
+    new: true
+  }, function (err, beer) {
+    if (err) {
+      return next(err);
+    } else {
       res.send(beer);
     }
   });

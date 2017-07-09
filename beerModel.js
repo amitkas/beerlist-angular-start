@@ -1,6 +1,11 @@
 var mongoose = require('mongoose');
 
 
+var reviewSchema = new mongoose.Schema({
+  name: String,
+  text: String
+});
+
 var beerSchema = new mongoose.Schema({
     name: String,
     style: String,
@@ -8,8 +13,11 @@ var beerSchema = new mongoose.Schema({
     abv: Number,
     id: String,
     ratings: [Number],
-    average: Number
+    average: Number,
+    review: [reviewSchema]
 });
+
+
 
 beerSchema.post('find', function (result) {
 
@@ -19,7 +27,7 @@ beerSchema.post('find', function (result) {
             for (var j = 0; j < result[i].ratings.length; j++) {
                 sum += result[i].ratings[j]
             }
-            result[i].average = sum / result[i].ratings.length
+            result[i].average = Math.round(sum / result[i].ratings.length)
         }
     }
 
@@ -32,7 +40,7 @@ beerSchema.post('findOneAndUpdate', function (result) {
         for (var i = 0; i < result.ratings.length; i++) {
             sum += result.ratings[i]
         }
-        result.average = sum / result.ratings.length
+        result.average = Math.round(sum / result.ratings.length)
     }
 });
 
