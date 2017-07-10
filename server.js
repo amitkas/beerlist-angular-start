@@ -49,6 +49,39 @@ app.delete('/beers/:beerId', function (req, res) {
   });
 });
 
+///get the beer for the new route
+
+app.get('/beers/:beerId', function (req, res) {
+  Beer.findById(req.params.beerId, function (err, data) {
+    if (err) {
+      return next(err);
+    }
+    res.send(data);
+  });
+});
+
+
+
+app.post('/beers/:beerid/review', function (req, res, next) {
+  console.log(req.params.beerId)
+  console.log(req.body)
+  Beer.findById(req.params.beerid, function (err, data) {
+    if (err) {
+      throw err
+    } else {
+      data.review.push(req.body)
+      data.save(function (err, data) {
+        if (err) {
+          console.error(err);
+        } else {
+          res.send(data)
+        }
+      })
+    }
+  })
+})
+
+
 app.post('/beers/:beerId/ratings', function (req, res, next) {
   var updateObject = {
     $push: {
@@ -67,22 +100,22 @@ app.post('/beers/:beerId/ratings', function (req, res, next) {
   });
 });
 
-app.post('/beers/:id/reviews', function (req, res, next) {
-  var update = {
-    $push: {
-      reviews: req.body
-    }
-  };
-  Beer.findByIdAndUpdate(req.params.beerid, update, {
-    new: true
-  }, function (err, beer) {
-    if (err) {
-      return next(err);
-    } else {
-      res.send(beer);
-    }
-  });
-});
+// app.post('/beers/:id/reviews', function (req, res, next) {
+//   var update = {
+//     $push: {
+//       reviews: req.body
+//     }
+//   };
+//   Beer.findByIdAndUpdate(req.params.beerid, update, {
+//     new: true
+//   }, function (err, beer) {
+//     if (err) {
+//       return next(err);
+//     } else {
+//       res.send(beer);
+//     }
+//   });
+// });
 
 // error handler to catch 404 and forward to main error handler
 app.use(function (req, res, next) {

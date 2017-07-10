@@ -14,17 +14,30 @@ beerFactory.getBeers = function() {
 
   beerFactory.addBeer = function(newBeer) {
 return $http.post('/beers', newBeer).then(function (response) {
-    console.log(response.data)
     return angular.copy(response.data);
   });
   }
 
+  beerFactory.addReview = function(review, beerid){
+      return $http.post('/beers/'+beerid+'/review/', review).then(function (response){
+        return angular.copy(response.data)
+      })
+  }
 
   beerFactory.removeBeer = function(beerId) {
       return $http.delete('/beers/'+beerId).then(function (response) {
     return angular.copy(response.data);
   });
   }
+
+///script to get a specific beer from API
+
+ beerFactory.getaBeer = function(beerId) {
+      return $http.get('/beers/'+beerId).then(function (response) {
+    return angular.copy(response.data);
+  });
+}
+
 
   beerFactory.rateBeer = function(beerId, newrate) {
       var rating = {ratings: newrate}

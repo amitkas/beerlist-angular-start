@@ -1,0 +1,27 @@
+<div class="page-header">
+    <a ui-sref="home">Home</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class='addreview'>
+                    <h2>{{beer.name}}</h2>
+                    <h3>Review this Beer</h3>
+                    <input type="user" class="form-control" ng-model='user' placeholder="Add your name here"><br>
+                    <textarea class="form-control" ng-model='review' rows="3" placeholder="Add your review here"></textarea><br>
+                    <button ng-click="addReview()" type="button" class="btn btn-primary btn-lg btn-block">Add Review</button>
+                </div><br>
+                <div style="text-align:center" class='thereviews'>
+                    <h4>Reviews</h4>
+                    <div ng-repeat="review in beer.review">
+                        
+                    User Name: {{review.name}}<br>
+                    Review: {{review.text}}
+                    
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

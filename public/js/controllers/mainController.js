@@ -55,8 +55,6 @@
           });
       }
 
-
-
       $scope.setOrder = function (order) {
           $scope.order = order;
       };
