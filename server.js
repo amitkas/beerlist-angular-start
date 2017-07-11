@@ -1,13 +1,16 @@
 var express = require('express');
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var expressSession = require('express-session')
 
 mongoose.connect('mongodb://localhost/beers', function () {
   console.log("DB connection established!!!");
 })
 
-var Beer = require('./beerModel');
-
+var beerRoutes = require('./routes/beerRoutes');
+var User = require("./Models/UserModel");
 
 var app = express();
 
@@ -17,104 +20,25 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+app.use(expressSession({
+  secret: 'yourSecretHere',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(User.createStrategy()); //Thanks to p-l-m there is no need to create a local strategy
+passport.serializeUser(User.serializeUser()); //also it helps here
+passport.deserializeUser(User.deserializeUser()); //and here
 
 
+app.use('/beers', beerRoutes);
 
 
-app.get('/beers', function (req, res, next) {
-  Beer.find(function (error, beers) {
-    if (error) {
-      return next(error);
-    } else {
-      return res.send(beers);
-    }
-  });
+app.all('[^.]+', function(req, res) {
+  res.sendFile(__dirname + "/public/index.html");
 });
-
-app.post('/beers', function (req, res) {
-  Beer.create(req.body, function (err, data) {
-    if (err) {
-      return next(err);
-    }
-    res.send(data);
-  });
-});
-
-app.delete('/beers/:beerId', function (req, res) {
-  Beer.findByIdAndRemove(req.params.beerId, function (err, data) {
-    if (err) {
-      return next(err);
-    }
-    res.send(data);
-  });
-});
-
-///get the beer for the new route
-
-app.get('/beers/:beerId', function (req, res) {
-  Beer.findById(req.params.beerId, function (err, data) {
-    if (err) {
-      return next(err);
-    }
-    res.send(data);
-  });
-});
-
-
-
-app.post('/beers/:beerid/review', function (req, res, next) {
-  console.log(req.body)
-  Beer.findById(req.params.beerid, function (err, data) {
-    if (err) {
-      throw err
-    } else {
-      data.review.push(req.body)
-      data.save(function (err, data) {
-        if (err) {
-          console.error(err);
-        } else {
-          res.send(data)
-        }
-      })
-    }
-  })
-})
-
-
-app.post('/beers/:beerId/ratings', function (req, res, next) {
-  var updateObject = {
-    $push: {
-      ratings: req.body.ratings
-    }
-  };
-
-  Beer.findByIdAndUpdate(req.params.beerId, updateObject, {
-    new: true
-  }, function (err, beer) {
-    if (err) {
-      return next(err);
-    } else {
-      res.send(beer);
-    }
-  });
-});
-
-// app.post('/beers/:id/reviews', function (req, res, next) {
-//   var update = {
-//     $push: {
-//       reviews: req.body
-//     }
-//   };
-//   Beer.findByIdAndUpdate(req.params.beerid, update, {
-//     new: true
-//   }, function (err, beer) {
-//     if (err) {
-//       return next(err);
-//     } else {
-//       res.send(beer);
-//     }
-//   });
-// });
 
 // error handler to catch 404 and forward to main error handler
 app.use(function (req, res, next) {

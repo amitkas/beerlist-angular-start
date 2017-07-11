@@ -17,4 +17,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
         });
 
     $urlRouterProvider.otherwise('/home');
+    // $locationProvider.html5Mode(true);
+
+
 }]);
