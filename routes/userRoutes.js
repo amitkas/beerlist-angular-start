@@ -21,12 +21,21 @@ router.post('/register', function(req, res, next) {
 router.post('/login', passport.authenticate('local'), function(req, res) {
   // If this function gets called, authentication was successful.
   // `req.user` contains the authenticated user.
-  res.send(req.user.username)
+  res.send({username:req.user.username})
+});
+
+router.get('/currentUser', function(req, res) {
+  if (req.user) {
+    res.send({username:req.user.username})
+  } else {
+    res.send(null)
+  }
 });
 
 router.get('/logout', function(req, res) {
-  req.logout();
-  res.send('Logged Out');
+ req.session.destroy(function (err) {
+    res.redirect('/'); //Inside a callback… bulletproof!
+  });
 });
 
 module.exports = router;

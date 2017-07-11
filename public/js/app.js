@@ -22,6 +22,12 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
             controller: 'AuthCtrl'
         })
 
+        .state('login', {
+            url: '/login',
+            templateUrl: '/templates/login.html',
+            controller: 'AuthCtrl'
+        })
+        
     $urlRouterProvider.otherwise('/home');
     $locationProvider.html5Mode(true);
 
