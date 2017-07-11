@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require("../Models/UserModel");
+var passport = require('passport');
 
 router.post('/register', function(req, res, next) {
   User.register(new User({ username: req.body.username }), req.body.password, function(err, user) {
@@ -12,7 +13,7 @@ router.post('/register', function(req, res, next) {
       if (err) {
         return next(err);
       }
-      res.send(req.user);
+      res.send({username:req.user.username});
     });
   });
 });
