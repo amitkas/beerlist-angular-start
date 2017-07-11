@@ -10,7 +10,8 @@ mongoose.connect('mongodb://localhost/beers', function () {
 })
 
 var beerRoutes = require('./routes/beerRoutes');
-var User = require("./Models/UserModel");
+var userRoutes = require('./routes/userRoutes');
+
 
 var app = express();
 
@@ -34,6 +35,8 @@ passport.deserializeUser(User.deserializeUser()); //and here
 
 
 app.use('/beers', beerRoutes);
+app.use('/users', userRoutes);
+
 
 
 app.all('[^.]+', function(req, res) {
