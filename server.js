@@ -63,7 +63,6 @@ app.get('/beers/:beerId', function (req, res) {
 
 
 app.post('/beers/:beerid/review', function (req, res, next) {
-  console.log(req.params.beerId)
   console.log(req.body)
   Beer.findById(req.params.beerid, function (err, data) {
     if (err) {

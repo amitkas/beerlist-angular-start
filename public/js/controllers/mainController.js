@@ -1,7 +1,5 @@
   app.controller('mainController', function ($scope, beerFactory) {
 
-
-
       $scope.addBeer = function (beer) {
           var newBeer = {
               name: $scope.name,

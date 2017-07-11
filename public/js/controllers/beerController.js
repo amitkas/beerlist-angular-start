@@ -19,7 +19,7 @@ app.controller('beerController', function ($scope, $stateParams, beerFactory) {
 
 
         beerFactory.addReview(review, beerid).then(function (beer) {
-              
+               
         }).catch(function (error) {
             console.log(error)
         });
