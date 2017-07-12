@@ -11,7 +11,7 @@
           beerFactory.addBeer(newBeer).then(function (beer) {
               $scope.beers.push(beer);
           }).catch(function (error) {
-              console.log(error)
+                $scope.error = error.statusText
           });
       }
 
@@ -24,7 +24,9 @@
                   }
               }
           }).catch(function (error) {
-              console.log(error)
+              alert(error.statusText)
+                $scope.error = error.statusText
+
           });
       }
 

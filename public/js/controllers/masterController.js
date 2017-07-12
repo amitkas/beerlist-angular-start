@@ -1,9 +1,17 @@
-app.controller('masterController', function($scope, authFactory){
+app.controller('masterController', function($scope, $state, authFactory,$rootScope){
 
-$scope.currentUser = authFactory.currentUser
+$rootScope.currentUser = authFactory.currentUser
 
 authFactory.getCurrentUser().then(function(){
 })
 
+    $scope.logout = function () {
+        authFactory.logout().then(function () {
+                $state.go('home');
+            },
+            function (err) {
+                alert(err.data)
+            })
+    }
 
 })

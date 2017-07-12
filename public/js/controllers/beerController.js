@@ -1,4 +1,4 @@
-app.controller('beerController', function ($scope, $stateParams, beerFactory) {
+app.controller('beerController', function ($scope, $stateParams, beerFactory, $rootScope) {
     if (!$stateParams.beerParam) {
         beerFactory.getaBeer($stateParams.id)
             .then(function (beer) {
@@ -13,18 +13,21 @@ app.controller('beerController', function ($scope, $stateParams, beerFactory) {
     $scope.addReview = function () {
         var review = {
             'text': $scope.review,
-            'name': $scope.user
+            'name': $rootScope.currentUser.username
         }
         var beerid = $stateParams.id
 
 
         beerFactory.addReview(review, beerid).then(function (beer) {
-               
+            console.log(beer)
+            $scope.beer = beer
         }).catch(function (error) {
             console.log(error)
         });
         $scope.review = ''
         $scope.user = ''
     }
+
+
 
 })

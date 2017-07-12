@@ -1,4 +1,7 @@
 <!--<div ng-controller="mainController" class="container">-->
+   <div ng-show="error" class="alert alert-danger row">
+                <span>{{error}}</span>
+            </div>
 <div class='container'>
     <ul class="nav nav-pills">
         <li ng-class="{'active': order=='name'}"><a href="#" ng-click="setOrder('name')">Name</a></li>
@@ -50,6 +53,9 @@
                 </div>
                 <button type="button" ng-click='addBeer()' class="btn btn-primary">Add</button>
             </form>
+            <div ng-show="error" class="alert alert-danger row">
+                <span>{{error}}</span>
+            </div>
         </div>
     </div>
 </div>

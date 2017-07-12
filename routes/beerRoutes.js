@@ -4,6 +4,14 @@ var Beer = require("../models/BeerModel");
 
 //the beer routes go here
 
+var ensureAuthenticated = function(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    return res.status('401').send({message: "Unauthorized" });
+  }
+};
+
 router.get('/', function (req, res, next) {
   Beer.find(function (error, beers) {
     if (error) {
@@ -14,7 +22,7 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.post('/', function (req, res) {
+router.post('/', ensureAuthenticated, function (req, res, next) {
   Beer.create(req.body, function (err, data) {
     if (err) {
       return next(err);
@@ -23,7 +31,7 @@ router.post('/', function (req, res) {
   });
 });
 
-router.delete('/:beerId', function (req, res) {
+router.delete('/:beerId', ensureAuthenticated, function (req, res, next) {
   Beer.findByIdAndRemove(req.params.beerId, function (err, data) {
     if (err) {
       return next(err);
@@ -78,6 +86,12 @@ router.post('/:beerId/ratings', function (req, res, next) {
     }
   });
 });
+
+
+
+// router.put('/:id', ensureAuthenticated, function(req, res, next) {
+//   //Find beer and update
+// });
 
 module.exports = router;
 

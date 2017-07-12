@@ -6,7 +6,7 @@
                 <div class='addreview'>
                     <h2>{{beer.name}}</h2>
                     <h3>Review this Beer</h3>
-                    <input type="user" class="form-control" ng-model='user' placeholder="Add your name here"><br>
+                    <h4>{{currentUser.username}}</h4>
                     <textarea class="form-control" ng-model='review' rows="3" placeholder="Add your review here"></textarea><br>
                     <button ng-click="addReview()" type="button" class="btn btn-primary btn-lg btn-block">Add Review</button>
                 </div><br>

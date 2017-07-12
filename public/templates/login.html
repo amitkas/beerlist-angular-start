@@ -1,13 +1,15 @@
 <form ng-submit="login()">
-  <h3>Log-In</h3>
+    <h3>Log-In</h3>
 
-  <div class="form-group">
-    <input type="text" class="form-control" placeholder="Username" ng-model="user.username"></input>
-  </div>
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Username" ng-model="user.username"></input>
+    </div>
 
-  <div class="form-group">
-    <input type="password" class="form-control" placeholder="Password" ng-model="user.password"></input>
-  </div>
-
-  <button type="submit" class="btn btn-primary">Login</button>
+    <div class="form-group">
+        <input type="password" class="form-control" placeholder="Password" ng-model="user.password"></input>
+    </div>
+    <div ng-show="error" class="alert alert-danger row">
+        <span>{{error}}</span>
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
 </form>

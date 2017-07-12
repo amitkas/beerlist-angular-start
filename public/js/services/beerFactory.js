@@ -4,6 +4,13 @@ app.factory('beerFactory', function ($http) {
   var beerFactory = {};
 
 
+beerFactory.getCurrentUser = function () {
+        return $http.get('/users/currentUser')
+            .then(function (response) {
+                return angular.copy(response.data);
+            })
+    }
+
 beerFactory.getBeers = function() {
   return $http.get('/beers')
     .then(function(response) {
